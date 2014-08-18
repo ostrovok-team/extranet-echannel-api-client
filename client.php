@@ -144,24 +144,6 @@ class OstrovokEchannelAPIClient {
 		return $this->__callPOST("rna/", $params);
 	}
 
-	public function getOccupancySettings($hotel, $room_category, 
-		$plan_date_start_at, $plan_date_end_at, array $params = array()) {
-		$params["hotel"] = $hotel;
-		$params["room_category"] = $room_category;
-		$params["plan_date_start_at"] = $plan_date_start_at;
-		$params["plan_date_end_at"] = $plan_date_end_at;
-		return $this->__callGET("occupancy_settings_plan/", $params);
-	}
-
-	public function updateOccupancySettings($id, array $params = array()) {
-		$params["id"] = $id;
-		return $this->__callPUT("occupancy_settings_plan/", $params);
-	}
-
-	public function createOccupancySettings(array $params = array()) {
-		return $this->__callPOST("occupancy_settings_plan/", $params);
-	}
-
 	public function getRatePlans(array $params = array()) {
 		return $this->__callGET("rate_plans/", $params);
 	}
