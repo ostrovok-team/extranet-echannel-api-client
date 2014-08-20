@@ -61,8 +61,7 @@ class OstrovokEchannelAPIClient {
 		return file_get_contents($final_url);
 	}
 
-	private function __callPUT($method_url, array $params) {
-		$GET_params = array();
+	private function __callPUT($method_url, array $params, array $GET_params = array()) {
 		$sign_params = $params;
 		$sign_params["token"] = $this->_auth_token;
 		$GET_params["token"] = $this->_auth_token;
@@ -86,8 +85,7 @@ class OstrovokEchannelAPIClient {
 		return $response;
 	}
 
-	private function __callPOST($method_url, array $params) {
-		$GET_params = array();
+	private function __callPOST($method_url, array $params, array $GET_params = array()) {
 		$sign_params = $params;
 		$sign_params["token"] = $this->_auth_token;
 		$GET_params["token"] = $this->_auth_token;
@@ -136,6 +134,10 @@ class OstrovokEchannelAPIClient {
 		return $this->__callGET("rna/", $params);
 	}
 
+	public function getRatePlans(array $params = array()) {
+		return $this->__callGET("rate_plans/", $params);
+	}	
+
 	public function updateRNA(array $params = array()) {
 		return $this->__callPUT("rna/", $params);
 	}
@@ -144,17 +146,27 @@ class OstrovokEchannelAPIClient {
 		return $this->__callPOST("rna/", $params);
 	}
 
-	public function getRatePlans(array $params = array()) {
-		return $this->__callGET("rate_plans/", $params);
+	public function createRatePlan($hotel = null, $room_category = null, array $rate_plan_params) {
+		$GET_params = array();
+		if (!is_null($hotel)) {
+			$GET_params["hotel"] = $hotel;
+		}
+		if (!is_null($room_category)) {
+			$GET_params["room_category"] = $room_category;
+		}		
+		return $this->__callPOST("rate_plans/", $rate_plan_params, $GET_params);
 	}
 
-	public function createRatePlan(array $rate_plan_params) {
-		return $this->__callPOST("rate_plans/", $rate_plan_params);
-	}
-
-	public function updateRatePlan($id, array $rate_plan_params) {
-		$rate_plan_params["id"] = $id;
-		return $this->__callPUT("rate_plans/", $rate_plan_params);
+	public function updateRatePlan($id, $hotel = null, $room_category = null, array $rate_plan_params = array()) {
+		$GET_params = array();
+		$GET_params["id"] = $id;
+		if (!is_null($hotel)) {
+			$GET_params["hotel"] = $hotel;
+		}
+		if (!is_null($room_category)) {
+			$GET_params["room_category"] = $room_category;
+		}
+		return $this->__callPUT("rate_plans/", $rate_plan_params, $GET_params);
 	}
 }
 
